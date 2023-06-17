@@ -5,7 +5,8 @@ import { MysqlRepo } from "./movie_repo.mysql.js"
 export interface MovieRepository {
 
     getMovies(limit: number, offset: number): Promise<Movie[]>
-    insertMovie(movie: Movie): void
+    getMovieById(id: number): Promise<Movie>
+    insertMovie(movie: Movie): Promise<void>
 
 }
 
