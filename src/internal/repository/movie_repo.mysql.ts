@@ -1,5 +1,5 @@
 import { Connection, RowDataPacket } from "mysql2"
-import { MovieRepository } from "./movie_repo.js"
+import { MovieRepository, RepositoryErrors } from "./movie_repo.js"
 import { DatabaseSettings } from "../../settings.js"
 import { getMysqlConnection } from "../../database/mysql.js"
 import Movie from "../models/movie.js"
@@ -16,15 +16,18 @@ export class MysqlRepo implements MovieRepository {
         return new Promise((resolve, reject) => {
 
             if (limit <= 0 || !Number.isInteger(limit))
-                return reject("getMovies(): the limit param is lower or equal than 0 or is not an integer")
+                return reject(RepositoryErrors.ErrLimitParamInvalid)
 
             if (offset < 0 || !Number.isInteger(offset))
-                return reject("getMovies(): the offset param is lower than 0 or is not an integer")
+                return reject(RepositoryErrors.ErrOffsetParamInvalid)
 
             this.#db.query("SELECT title, id, date FROM movies LIMIT ? OFFSET ?", [limit, offset], (err, results: RowDataPacket[]) => {
 
                 if (err)
                     return reject(err)
+
+                if (!results)
+                    return reject(RepositoryErrors.ErrNoRows)
 
                 const movies: Movie[] = results.map(({ title, date, id }) => {
                     return new Movie(title, date, id)

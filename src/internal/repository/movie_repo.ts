@@ -20,3 +20,9 @@ export function newMovieRepository(dbSettings: DatabaseSettings): MovieRepositor
             throw Error("newMovieRepository(): the specified database driver does not have a repository implementation.")
     }
 }
+
+export enum RepositoryErrors {
+    ErrNoRows = "no rows found",
+    ErrLimitParamInvalid = "the limit param is invalid",
+    ErrOffsetParamInvalid = "the offset param is invalid"
+}
