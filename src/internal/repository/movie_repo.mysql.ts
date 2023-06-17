@@ -26,7 +26,7 @@ export class MysqlRepo implements MovieRepository {
                 if (err)
                     return reject(err)
 
-                if (!results)
+                if (!results.length)
                     return reject(RepositoryErrors.ErrNoRows)
 
                 const movies: Movie[] = results.map(({ title, date, id }) => {
