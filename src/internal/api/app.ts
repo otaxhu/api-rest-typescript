@@ -2,13 +2,14 @@ import express, { Application } from "express"
 import { registerMoviesRoutes } from "./routes/index.js"
 import { ServerSettings } from "../../settings.js"
 import MovieService from "../service/movie_service.js"
-
+import bodyParser from "body-parser"
 
 export class App {
     #app: Application
     #port: number
     constructor(serverSettings: ServerSettings, movieService: MovieService) {
         this.#app = express()
+        this.#app.use(bodyParser.json())
         this.#port = serverSettings.port
         registerMoviesRoutes(this.#app, movieService)
     }
