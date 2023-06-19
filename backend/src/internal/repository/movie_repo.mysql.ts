@@ -23,7 +23,7 @@ export class MysqlRepo implements MovieRepository {
                 return reject(RepositoryErrors.ErrOffsetParamInvalid)
             }
 
-            this.#db.query("SELECT title, id, date FROM movies LIMIT ? OFFSET ?", [limit, offset], (err, results: RowDataPacket[]) => {
+            this.#db.query("SELECT title, id, date, cover_url FROM movies LIMIT ? OFFSET ?", [limit, offset], (err, results: RowDataPacket[]) => {
 
                 if (err)
                     return reject(err)
@@ -31,8 +31,8 @@ export class MysqlRepo implements MovieRepository {
                 if (!results.length)
                     return reject(RepositoryErrors.ErrNoRows)
 
-                const movies: Movie[] = results.map(({ title, date, id }) => {
-                    return new Movie(title, date, id)
+                const movies: Movie[] = results.map(({ title, date, id, cover_url }) => {
+                    return new Movie(title, date, id, cover_url)
                 })
                 resolve(movies)
             })
@@ -41,7 +41,7 @@ export class MysqlRepo implements MovieRepository {
 
     getMovieById(id: number): Promise<Movie> {
         return new Promise((resolve, reject) => {
-            this.#db.query("SELECT title, id, date FROM movies WHERE id = ?", [id], (err, results: RowDataPacket[]) => {
+            this.#db.query("SELECT title, id, date, cover_url FROM movies WHERE id = ?", [id], (err, results: RowDataPacket[]) => {
 
                 if (err)
                     return reject(err)
@@ -54,10 +54,9 @@ export class MysqlRepo implements MovieRepository {
         })
     }
 
-    insertMovie(movie: Movie): Promise<void> {
+    insertMovie({ title, date, cover_url }: Movie): Promise<void> {
         return new Promise((resolve, reject) => {
-            const { title, date } = movie
-            this.#db.execute("INSERT INTO movies (title, date) VALUES (?, ?)", [title, date], (err) => {
+            this.#db.execute("INSERT INTO movies (title, date, cover_url) VALUES (?, ?, ?)", [title, date, cover_url], (err) => {
 
                 if (err)
                     return reject(err)

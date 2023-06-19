@@ -10,7 +10,9 @@ export class App {
     constructor(serverSettings: ServerSettings, movieService: MovieService) {
         this.#app = express()
         this.#app.use(bodyParser.json())
+        this.#app.use("/static", express.static("./static"))
         this.#port = serverSettings.port
+        this.#app.set("port", this.#port)
         registerMoviesRoutes(this.#app, movieService)
     }
     start() {

@@ -38,6 +38,7 @@ export default class HandlerMovies {
 
     postMovie(req: Request, res: Response) {
         const movie: Movie = req.body
+        movie.cover_url = `${req.protocol}://${req.hostname}:${req.app.get("port")}/${req.file?.path.replace(/\\/g, "/")}`
         this.#service.saveMovie(movie)
             .then(() => res.status(201).send())
             .catch((err: ServiceErrors) => {

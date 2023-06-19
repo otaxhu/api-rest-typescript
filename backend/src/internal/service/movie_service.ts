@@ -19,7 +19,7 @@ export default class MovieService {
             --page
             const offset = limitMovies * page
 
-            if (page < 0)
+            if (page < 0 || !Number.isInteger(page))
                 return reject(ServiceErrors.ErrPageParamInvalid)
 
             this.#movieRepo.getMovies(limitMovies, offset)
