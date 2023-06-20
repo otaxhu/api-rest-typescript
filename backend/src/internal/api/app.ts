@@ -3,6 +3,7 @@ import { registerMoviesRoutes } from "./routes/index.js"
 import { ServerSettings } from "../../settings.js"
 import MovieService from "../service/movie_service.js"
 import bodyParser from "body-parser"
+import cors from "cors"
 
 export class App {
     #app: Application
@@ -11,6 +12,7 @@ export class App {
         this.#app = express()
         this.#app.use(bodyParser.json())
         this.#app.use("/static", express.static("./static"))
+        this.#app.use(cors())
         this.#port = serverSettings.port
         this.#app.set("port", this.#port)
         registerMoviesRoutes(this.#app, movieService)
