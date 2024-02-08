@@ -17,12 +17,4 @@ Se contruira este proyecto en arquitectura hexagonal para poder separar el codig
 Este proyecto tiene como proposito aumentar mis conocimientos sobre el lenguaje Typescript asi como Javascript tambien.
 Este objetivo se logra con el aprendizaje basado en proyectos.
 
-## !!! Idea de otro proyecto:
-
-Un proyecto que va ser de un servicio de acortador de links.
-
-Las personas podran enviar cualquier link y yo les dare un link mas cortito que los va a redireccionar a la pagina que ellos especificaron anteriormente.
-
-Todos esos links seran guardados en la base de datos con un identificador unico.
-
 # Hola mundo
